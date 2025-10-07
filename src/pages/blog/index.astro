@@ -15,6 +15,10 @@ const posts = await client.fetch<Post[]>(`
     "slug": slug.current
   }
 `);
+
+// Debug: log per verificare quanti post vengono recuperati
+console.log('🔍 Posts recuperati da Sanity:', posts.length);
+console.log('📝 Posts:', JSON.stringify(posts, null, 2));
 ---
 
 <Layout title="Blog Erasmus - News e Aggiornamenti" description="Scopri le ultime novità e aggiornamenti sui progetti Erasmus">
@@ -33,8 +37,15 @@ const posts = await client.fetch<Post[]>(`
   <!-- Posts Grid -->
   <section class="py-16">
     <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
+      {posts.length === 0 ? (
+        <div class="text-center py-12">
+          <p class="text-xl text-gray-600 mb-4">Nessuna news pubblicata al momento.</p>
+          <p class="text-gray-500">Torna presto per aggiornamenti!</p>
+          <p class="text-sm text-gray-400 mt-4">Debug: Posts array length = {posts.length}</p>
+        </div>
+      ) : (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
           <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
             {post.heroImage ? (
               <img 
@@ -68,8 +79,9 @@ const posts = await client.fetch<Post[]>(`
               </a>
             </div>
           </article>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   </section>
 
