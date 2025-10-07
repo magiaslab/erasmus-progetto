@@ -28,18 +28,29 @@ const { title, description } = Astro.props;
               <p class="text-sm text-blue-100">Progetto Erasmus+</p>
             </div>
           </div>
-          <ul class="hidden md:flex space-x-6">
+          <ul id="main-nav" class="hidden md:flex space-x-6">
             <li><a href="/" class="hover:text-yellow-300 transition-colors font-medium">Home</a></li>
             <li><a href="/chi-siamo" class="hover:text-yellow-300 transition-colors font-medium">Chi Siamo</a></li>
             <li><a href="/progetti" class="hover:text-yellow-300 transition-colors font-medium">Progetti</a></li>
             <li><a href="/blog" class="hover:text-yellow-300 transition-colors font-medium">News</a></li>
             <li><a href="/contatti" class="hover:text-yellow-300 transition-colors font-medium">Contatti</a></li>
+            <li><a href="https://istituto-marconi.edu.it" target="_blank" rel="noopener" class="text-yellow-300 font-semibold">Sito Istituzionale</a></li>
           </ul>
-          <button class="md:hidden text-white">
+          <button id="hamburger" class="md:hidden text-white" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden mt-4">
+          <ul class="space-y-2">
+            <li><a href="/" class="block py-2">Home</a></li>
+            <li><a href="/chi-siamo" class="block py-2">Chi Siamo</a></li>
+            <li><a href="/progetti" class="block py-2">Progetti</a></li>
+            <li><a href="/blog" class="block py-2">News</a></li>
+            <li><a href="/contatti" class="block py-2">Contatti</a></li>
+            <li><a href="https://istituto-marconi.edu.it" target="_blank" rel="noopener" class="block py-2 text-yellow-300 font-semibold">Sito Istituzionale</a></li>
+          </ul>
         </div>
       </nav>
     </header>
@@ -68,7 +79,7 @@ const { title, description } = Astro.props;
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               </a>
-              <a href="https://istituto-marconi.edu.it" target="_blank" rel="noopener" class="text-blue-400 hover:text-yellow-400 transition-colors">
+              <a href="https://istituto-marconi.edu.it" target="_blank" rel="noopener" class="text-blue-400 hover:text-yellow-400 transition-colors" aria-label="Sito Istituzionale Istituto Marconi">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
@@ -84,6 +95,7 @@ const { title, description } = Astro.props;
               <li><a href="/blog" class="hover:text-white transition-colors">News e Eventi</a></li>
               <li><a href="/contatti" class="hover:text-white transition-colors">Contatti</a></li>
               <li><a href="https://www.erasmusdays.eu/" target="_blank" rel="noopener" class="hover:text-white transition-colors">ErasmusDays</a></li>
+              <li><a href="https://istituto-marconi.edu.it" target="_blank" rel="noopener" class="hover:text-white transition-colors">Sito Istituzionale</a></li>
             </ul>
           </div>
           
@@ -94,19 +106,19 @@ const { title, description } = Astro.props;
                 <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
-                <span>erasmus@istituto-marconi.edu.it</span>
+                <span>liic8100c@istruzione.it</span>
               </div>
               <div class="flex items-center space-x-2">
                 <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                 </svg>
-                <span>+39 06 123 4567</span>
+                <span>0565851467</span>
               </div>
               <div class="flex items-center space-x-2">
                 <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
-                <span>Via del Marconi, 123 - Roma</span>
+                <span>Via della Fiera, 6 - 57021 Campiglia Marittima (Li)</span>
               </div>
             </div>
           </div>
@@ -127,5 +139,17 @@ const { title, description } = Astro.props;
         </div>
       </div>
     </footer>
+
+    <script>
+      const btn = document.getElementById('hamburger');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const isOpen = !menu.classList.contains('hidden');
+          menu.classList.toggle('hidden');
+          btn.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+    </script>
   </body>
 </html>
