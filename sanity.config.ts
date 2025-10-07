@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'default',
   title: 'Erasmus CMS',
 
-  projectId: process.env.PUBLIC_SANITY_PROJECT_ID || '',
-  dataset: process.env.PUBLIC_SANITY_DATASET || 'production',
+  projectId: 'fot89z96',
+  dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
 

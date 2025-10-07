@@ -3,18 +3,17 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sanity from '@sanity/astro';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://erasmus.istituto-marconi.edu.it',
-  integrations: [
-    tailwind(),
-    sanity({
-      projectId: process.env.PUBLIC_SANITY_PROJECT_ID || '',
-      dataset: process.env.PUBLIC_SANITY_DATASET || 'production',
-      useCdn: false,
-      apiVersion: '2024-03-15',
-      studioBasePath: '/studio',
-    }),
-  ],
+  integrations: [tailwind(), sanity({
+    projectId: 'fot89z96',
+    dataset: 'production',
+    useCdn: false,
+    apiVersion: '2024-03-15',
+    studioBasePath: '/studio',
+  }), react()],
   output: 'static'
 });

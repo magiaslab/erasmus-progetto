@@ -28,5 +28,8 @@ Thumbs.db
 .tina/
 admin/
 
+# Sanity Studio (separato)
+sanity-studio/
+
 # Logs
 *.log
