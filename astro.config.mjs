@@ -19,6 +19,6 @@ export default defineConfig({
     studioBasePath: '/studio',
   }), react()],
 
-  output: 'server',
+  output: 'hybrid',
   adapter: netlify()
 });
