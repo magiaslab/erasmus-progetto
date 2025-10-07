@@ -1,0 +1,20 @@
+{
+  "name": "erasmus",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "tina-dev": "tinacms dev -c \"npm run dev\"",
+    "tina-build": "tinacms build && npm run build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@tinacms/cli": "^1.11.0",
+    "astro": "^5.14.1",
+    "tailwindcss": "^4.1.14",
+    "tinacms": "^2.9.0"
+  }
+}

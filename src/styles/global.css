@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* Custom styles for Erasmus project - Istituto Marconi */
+.prose {
+  @apply text-gray-700 leading-relaxed;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold text-gray-800 mb-6;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold text-gray-800 mb-4 mt-8;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold text-gray-800 mb-3 mt-6;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose ul {
+  @apply list-disc list-inside mb-4;
+}
+
+.prose ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-800;
+}
+
+.prose em {
+  @apply italic;
+}
+
+/* Erasmus Brand Colors */
+:root {
+  --erasmus-blue: #003366;
+  --erasmus-light-blue: #0066cc;
+  --erasmus-yellow: #ffcc00;
+  --erasmus-dark-yellow: #e6b800;
+  --erasmus-green: #00cc66;
+  --erasmus-red: #cc0000;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slideInFromLeft {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Erasmus-specific styles */
+.erasmus-gradient {
+  background: linear-gradient(135deg, #003366 0%, #0066cc 50%, #ffcc00 100%);
+}
+
+.erasmus-card {
+  @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-600;
+}
+
+.erasmus-button-primary {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg;
+}
+
+.erasmus-button-secondary {
+  @apply bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors shadow-lg;
+}
+
+.erasmus-text-gradient {
+  background: linear-gradient(135deg, #003366, #0066cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .prose h1 {
+    @apply text-2xl;
+  }
+  
+  .prose h2 {
+    @apply text-xl;
+  }
+  
+  .prose h3 {
+    @apply text-lg;
+  }
+}
+
+/* ErasmusDays specific styles */
+.erasmusdays-banner {
+  @apply bg-yellow-400 text-blue-900 py-4;
+}
+
+.erasmusdays-card {
+  @apply bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center;
+}
+
+/* Istituto Marconi specific styles */
+.marconi-header {
+  @apply bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white;
+}
+
+.marconi-footer {
+  @apply bg-gray-900 text-white;
+}
+
+.marconi-accent {
+  @apply text-yellow-400;
+}

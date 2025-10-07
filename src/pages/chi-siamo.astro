@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const pages = await getCollection('pages');
+const chiSiamoPage = pages.find(page => page.slug === 'chi-siamo');
+const { Content } = chiSiamoPage ? await chiSiamoPage.render() : { Content: null };
+---
+
+<Layout title="Chi Siamo - Progetto Erasmus" description="Scopri la nostra storia e il team del progetto Erasmus">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">
+        Chi Siamo
+      </h1>
+      <p class="text-xl text-indigo-100">
+        La nostra storia e il team che rende possibile il progetto Erasmus
+      </p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        {Content && (
+          <div class="prose prose-lg max-w-none">
+            <Content />
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+        Il Nostro Team
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+          <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2 text-gray-800">Dr. Maria Rossi</h3>
+          <p class="text-indigo-600 mb-3">Coordinatrice Erasmus</p>
+          <p class="text-gray-600">
+            Esperta in relazioni internazionali con oltre 10 anni di esperienza nel programma Erasmus+.
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2 text-gray-800">Prof. Marco Bianchi</h3>
+          <p class="text-green-600 mb-3">Responsabile Accademico</p>
+          <p class="text-gray-600">
+            Docente universitario specializzato in programmi di scambio internazionale e mobilità studentesca.
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+          <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2 text-gray-800">Dott.ssa Anna Verdi</h3>
+          <p class="text-purple-600 mb-3">Supporto Studenti</p>
+          <p class="text-gray-600">
+            Specialista nell'assistenza agli studenti per procedure burocratiche e supporto linguistico.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+---
+
+<Layout title="Blog Erasmus - News e Aggiornamenti" description="Scopri le ultime novità e aggiornamenti sui progetti Erasmus">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">
+        Blog Erasmus
+      </h1>
+      <p class="text-xl text-purple-100">
+        News, aggiornamenti e storie di successo dal mondo Erasmus
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+            <div class="h-48 bg-gradient-to-r from-purple-400 to-purple-600 flex items-center justify-center">
+              <div class="text-white text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold">
+                  {new Date(post.data.pubDate).toLocaleDateString('it-IT')}
+                </p>
+              </div>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold mb-3 text-gray-800">
+                {post.data.title}
+              </h2>
+              <p class="text-gray-600 mb-4">
+                {post.data.description}
+              </p>
+              <a href={`/blog/${post.slug}`} class="block w-full bg-purple-600 text-white text-center py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                Leggi Articolo
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6 text-gray-800">
+        Rimani Aggiornato
+      </h2>
+      <p class="text-xl text-gray-600 mb-8">
+        Iscriviti alla nostra newsletter per ricevere le ultime novità sui progetti Erasmus.
+      </p>
+      <div class="max-w-md mx-auto flex gap-2">
+        <input type="email" placeholder="La tua email" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <button class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+          Iscriviti
+        </button>
+      </div>
+    </div>
+  </section>
+</Layout>
