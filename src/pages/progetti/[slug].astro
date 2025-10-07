@@ -3,6 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import { client, urlFor, portableTextToHtml } from '../../lib/sanity';
 import type { Project } from '../../lib/sanity-types';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const projects = await client.fetch<Project[]>(`
     *[_type == "project"] {

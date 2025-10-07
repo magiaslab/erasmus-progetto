@@ -3,6 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import { client, urlFor, portableTextToHtml } from '../../lib/sanity';
 import type { Post } from '../../lib/sanity-types';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const posts = await client.fetch<Post[]>(`
     *[_type == "post"] {
