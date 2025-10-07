@@ -2,12 +2,20 @@ import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
+// Durante SSR runtime, usa process.env invece di import.meta.env
+const getToken = () => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.SANITY_API_TOKEN;
+  }
+  return import.meta.env?.SANITY_API_TOKEN;
+};
+
 export const client = createClient({
   projectId: 'fot89z96',
   dataset: 'production',
   useCdn: false,
   apiVersion: '2024-03-15',
-  token: import.meta.env.SANITY_API_TOKEN,
+  token: getToken(),
 });
 
 const builder = imageUrlBuilder(client);

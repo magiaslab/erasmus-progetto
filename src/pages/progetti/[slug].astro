@@ -4,6 +4,11 @@ import { client, urlFor, portableTextToHtml } from '../../lib/sanity';
 import type { Project } from '../../lib/sanity-types';
 
 // Renderizzazione dinamica SSR - no prerender per contenuti CMS
+// getStaticPaths ritorna array vuoto perché usiamo SSR on-demand
+
+export async function getStaticPaths() {
+  return [];
+}
 
 const { slug } = Astro.params;
 
