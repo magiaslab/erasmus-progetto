@@ -33,3 +33,5 @@ sanity-studio/
 
 # Logs
 *.log
+# Local Netlify folder
+.netlify

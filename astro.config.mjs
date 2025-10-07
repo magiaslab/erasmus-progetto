@@ -5,9 +5,12 @@ import sanity from '@sanity/astro';
 
 import react from '@astrojs/react';
 
+import netlify from '@astrojs/netlify';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://erasmus.istituto-marconi.edu.it',
+
   integrations: [tailwind(), sanity({
     projectId: 'fot89z96',
     dataset: 'production',
@@ -15,5 +18,7 @@ export default defineConfig({
     apiVersion: '2024-03-15',
     studioBasePath: '/studio',
   }), react()],
-  output: 'static'
+
+  output: 'server',
+  adapter: netlify()
 });
