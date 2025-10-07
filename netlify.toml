@@ -5,17 +5,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Sanity Studio configuration
-[[redirects]]
-  from = "/studio"
-  to = "/studio/"
-  status = 301
-
-[[redirects]]
-  from = "/studio/*"
-  to = "/studio/index.html"
-  status = 200
-
 # Security headers
 [[headers]]
   for = "/*"
