@@ -5,6 +5,10 @@ import type { Post } from '../../lib/sanity-types';
 
 export const prerender = true;
 
+console.log('🔧 [BUILD] Inizio fetch post da Sanity...');
+console.log('🔧 [BUILD] SANITY_API_TOKEN presente:', !!import.meta.env.SANITY_API_TOKEN);
+console.log('🔧 [BUILD] SANITY_API_TOKEN length:', import.meta.env.SANITY_API_TOKEN?.length || 0);
+
 const posts = await client.fetch<Post[]>(`
   *[_type == "post"] | order(pubDate desc) {
     _id,
@@ -14,11 +18,13 @@ const posts = await client.fetch<Post[]>(`
     heroImage,
     "slug": slug.current
   }
-`);
+`).catch((error) => {
+  console.error('❌ [BUILD] Errore fetch Sanity:', error.message);
+  return [];
+});
 
-// Debug: log per verificare quanti post vengono recuperati
-console.log('🔍 Posts recuperati da Sanity:', posts.length);
-console.log('📝 Posts:', JSON.stringify(posts, null, 2));
+console.log('🔍 [BUILD] Posts recuperati da Sanity:', posts.length);
+console.log('📝 [BUILD] Posts:', JSON.stringify(posts, null, 2));
 ---
 
 <Layout title="Blog Erasmus - News e Aggiornamenti" description="Scopri le ultime novità e aggiornamenti sui progetti Erasmus">

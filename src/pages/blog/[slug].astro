@@ -6,6 +6,9 @@ import type { Post } from '../../lib/sanity-types';
 export const prerender = true;
 
 export async function getStaticPaths() {
+  console.log('🔧 [BUILD] getStaticPaths - Inizio fetch post...');
+  console.log('🔧 [BUILD] SANITY_API_TOKEN presente:', !!import.meta.env.SANITY_API_TOKEN);
+  
   const posts = await client.fetch<Post[]>(`
     *[_type == "post"] {
       _id,
@@ -16,7 +19,13 @@ export async function getStaticPaths() {
       body,
       "slug": slug.current
     }
-  `);
+  `).catch((error) => {
+    console.error('❌ [BUILD] Errore fetch Sanity in getStaticPaths:', error.message);
+    return [];
+  });
+  
+  console.log('🔍 [BUILD] getStaticPaths - Posts trovati:', posts.length);
+  console.log('📝 [BUILD] Slugs:', posts.map(p => p.slug));
   
   return posts.map((post) => ({
     params: { slug: post.slug },
