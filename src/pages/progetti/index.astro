@@ -1,8 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { client, urlFor } from '../../lib/sanity';
+import type { Project } from '../../lib/sanity-types';
 
-const projects = await getCollection('projects');
+const projects = await client.fetch<Project[]>(`
+  *[_type == "project"] | order(_createdAt desc) {
+    _id,
+    title,
+    description,
+    country,
+    duration,
+    heroImage,
+    "slug": slug.current
+  }
+`);
 ---
 
 <Layout title="Progetti Erasmus - Opportunità di Mobilità" description="Scopri tutti i progetti Erasmus disponibili per la mobilità internazionale">
@@ -24,35 +35,43 @@ const projects = await getCollection('projects');
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
           <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-            <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
-              <div class="text-white text-center">
-                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" clip-rule="evenodd"></path>
-                  </svg>
+            {project.heroImage ? (
+              <img 
+                src={urlFor(project.heroImage).width(600).height(400).url()} 
+                alt={project.heroImage.alt || project.title}
+                class="h-48 w-full object-cover"
+              />
+            ) : (
+              <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <p class="text-sm font-semibold">{project.country}</p>
                 </div>
-                <p class="text-sm font-semibold">{project.data.country}</p>
               </div>
-            </div>
+            )}
             <div class="p-6">
               <h3 class="text-xl font-semibold mb-3 text-gray-800">
-                {project.data.title}
+                {project.title}
               </h3>
               <p class="text-gray-600 mb-4">
-                {project.data.description}
+                {project.description}
               </p>
               <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                 <span class="flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                   </svg>
-                  {project.data.duration}
+                  {project.duration}
                 </span>
                 <span class="flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
                   </svg>
-                  {project.data.country}
+                  {project.country}
                 </span>
               </div>
               <a href={`/progetti/${project.slug}`} class="block w-full bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition-colors">

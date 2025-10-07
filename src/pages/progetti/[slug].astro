@@ -1,38 +1,55 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { client, urlFor, portableTextToHtml } from '../../lib/sanity';
+import type { Project } from '../../lib/sanity-types';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
+  const projects = await client.fetch<Project[]>(`
+    *[_type == "project"] {
+      _id,
+      title,
+      description,
+      country,
+      duration,
+      heroImage,
+      body,
+      "slug": slug.current
+    }
+  `);
+  
   return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },
   }));
 }
 
+interface Props {
+  project: Project;
+}
+
 const { project } = Astro.props;
-const { Content } = await project.render();
+const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
 ---
 
-<Layout title={project.data.title} description={project.data.description}>
+<Layout title={project.title} description={project.description}>
   <!-- Hero Section -->
   <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">
-          {project.data.title}
+          {project.title}
         </h1>
         <p class="text-xl text-blue-100 mb-8">
-          {project.data.description}
+          {project.description}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <div class="bg-white/20 px-6 py-3 rounded-lg">
             <span class="text-sm font-semibold">Paese</span>
-            <p class="text-lg">{project.data.country}</p>
+            <p class="text-lg">{project.country}</p>
           </div>
           <div class="bg-white/20 px-6 py-3 rounded-lg">
             <span class="text-sm font-semibold">Durata</span>
-            <p class="text-lg">{project.data.duration}</p>
+            <p class="text-lg">{project.duration}</p>
           </div>
         </div>
       </div>
@@ -43,8 +60,14 @@ const { Content } = await project.render();
   <section class="py-16">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <div class="prose prose-lg max-w-none">
-          <Content />
+        {project.heroImage && (
+          <img 
+            src={urlFor(project.heroImage).width(1200).url()} 
+            alt={project.heroImage.alt || project.title}
+            class="w-full rounded-lg mb-8 shadow-lg"
+          />
+        )}
+        <div class="prose prose-lg max-w-none" set:html={contentHtml}>
         </div>
       </div>
     </div>
