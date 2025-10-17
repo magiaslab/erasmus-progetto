@@ -20,6 +20,7 @@ const post = await client.fetch<Post | null>(`
     pubDate,
     heroImage,
     body,
+    embedCode,
     "slug": slug.current
   }
 `, { slug });
@@ -67,6 +68,13 @@ const contentHtml = post.body ? await portableTextToHtml(post.body) : '';
         )}
         <div class="prose prose-lg max-w-none" set:html={contentHtml}>
         </div>
+        
+        {post.embedCode && (
+          <div class="mt-12 embed-container">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Contenuto Multimediale</h3>
+            <div class="embed-wrapper" set:html={post.embedCode}></div>
+          </div>
+        )}
       </div>
     </div>
   </section>

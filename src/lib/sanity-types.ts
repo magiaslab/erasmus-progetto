@@ -28,6 +28,7 @@ export interface Post {
   pubDate: string;
   heroImage?: SanityImage;
   body?: PortableTextBlock[];
+  embedCode?: string;
 }
 
 export interface Project {
@@ -39,6 +40,7 @@ export interface Project {
   duration: string;
   heroImage?: SanityImage;
   body?: PortableTextBlock[];
+  embedCode?: string;
 }
 
 export interface Page {

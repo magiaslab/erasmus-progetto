@@ -161,3 +161,30 @@
 .marconi-accent {
   @apply text-yellow-400;
 }
+
+/* Embed container - responsive for Canva, YouTube, etc. */
+.embed-container {
+  @apply w-full;
+}
+
+.embed-wrapper {
+  @apply relative w-full overflow-hidden rounded-lg shadow-lg;
+}
+
+/* Make iframes responsive */
+.embed-wrapper iframe {
+  @apply w-full rounded-lg;
+  min-height: 400px;
+}
+
+@media (min-width: 768px) {
+  .embed-wrapper iframe {
+    min-height: 500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .embed-wrapper iframe {
+    min-height: 600px;
+  }
+}

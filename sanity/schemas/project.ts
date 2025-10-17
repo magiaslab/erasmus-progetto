@@ -74,6 +74,13 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'embedCode',
+      title: 'Codice Embed (Canva, YouTube, etc.)',
+      type: 'text',
+      description: 'Incolla qui il codice embed HTML/iframe da Canva o altri servizi. Esempio: <iframe src="..." ...></iframe>',
+      rows: 5,
+    }),
   ],
   preview: {
     select: {
