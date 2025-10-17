@@ -28,7 +28,7 @@ Partecipa alla celebrazione internazionale del programma Erasmus+! La 9ª edizio
 
 Per informazioni sui nostri progetti Erasmus+, potete contattarci:
 
-- **Email**: erasmus@istituto-marconi.edu.it
-- **Telefono**: +39 06 123 4567
-- **Indirizzo**: Via del Marconi, 123 - 00100 Roma
+- **Email**: liic81000c@istruzione.it
+- **Telefono**: +39 05650851467
+- **Indirizzo**: Viadella Fiera 6 57021 Campiglia Marittima
 - **Sito Web**: [istituto-marconi.edu.it](https://istituto-marconi.edu.it)
