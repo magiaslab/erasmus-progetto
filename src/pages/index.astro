@@ -312,4 +312,26 @@ const posts = await client.fetch<Post[]>(`
       </div>
     </div>
   </section>
+
+  <!-- EU Funding Disclaimer -->
+  <section class="py-12 bg-white border-t border-gray-200">
+    <div class="container mx-auto px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+          <div class="flex-shrink-0">
+            <img 
+              src="/EN_Co-fundedbytheEU_RGB_NEG.png" 
+              alt="Co-funded by the European Union" 
+              class="h-20 md:h-24 w-auto"
+            />
+          </div>
+          <div class="text-center md:text-left">
+            <p class="text-sm md:text-base text-gray-700 leading-relaxed">
+              <strong>Finanziato dall'Unione europea.</strong> Le opinioni espresse appartengono, tuttavia, al solo o ai soli autori e non riflettono necessariamente le opinioni dell'Unione europea o dell'Agenzia esecutiva europea per l'istruzione e la cultura (EACEA). Né l'Unione europea né l'EACEA possono esserne ritenute responsabili.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
