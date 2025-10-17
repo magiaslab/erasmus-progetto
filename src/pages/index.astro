@@ -1,5 +1,32 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { client, urlFor } from '../lib/sanity';
+import type { Project, Post } from '../lib/sanity-types';
+
+// Fetch ultimi 3 progetti
+const projects = await client.fetch<Project[]>(`
+  *[_type == "project"] | order(_createdAt desc)[0...3] {
+    _id,
+    title,
+    description,
+    country,
+    duration,
+    heroImage,
+    "slug": slug.current
+  }
+`);
+
+// Fetch ultime 3 news
+const posts = await client.fetch<Post[]>(`
+  *[_type == "post"] | order(pubDate desc)[0...3] {
+    _id,
+    title,
+    description,
+    pubDate,
+    heroImage,
+    "slug": slug.current
+  }
+`);
 ---
 
 <Layout title="Progetto Erasmus - Istituto Marconi" description="Scopri le opportunità di mobilità internazionale del nostro progetto Erasmus presso l'Istituto Marconi">
@@ -141,6 +168,127 @@ import Layout from '../layouts/Layout.astro';
           <h3 class="text-xl font-semibold mb-2">Edizione 2025</h3>
           <p class="text-blue-100">13-18 Ottobre</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-bold mb-4 text-gray-800">
+            I Nostri Progetti
+          </h2>
+          <p class="text-xl text-gray-600">
+            Scopri le esperienze di mobilità internazionale
+          </p>
+        </div>
+        <a href="/progetti" class="hidden md:inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+          Vedi Tutti
+        </a>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <article class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all border-l-4 border-blue-600 overflow-hidden">
+            {project.heroImage && (
+              <img 
+                src={urlFor(project.heroImage).width(600).height(300).url()} 
+                alt={project.heroImage.alt || project.title}
+                class="w-full h-48 object-cover"
+              />
+            )}
+            <div class="p-6">
+              <div class="flex gap-2 mb-3">
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                  {project.country}
+                </span>
+                <span class="bg-gray-100 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
+                  {project.duration}
+                </span>
+              </div>
+              <h3 class="text-xl font-bold mb-3 text-gray-800 line-clamp-2">
+                {project.title}
+              </h3>
+              <p class="text-gray-600 mb-4 line-clamp-3">
+                {project.description}
+              </p>
+              <a 
+                href={`/progetti/${project.slug}`} 
+                class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Scopri di più
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      
+      <div class="text-center mt-12 md:hidden">
+        <a href="/progetti" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+          Vedi Tutti i Progetti
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-bold mb-4 text-gray-800">
+            Ultime News
+          </h2>
+          <p class="text-xl text-gray-600">
+            Rimani aggiornato sulle nostre attività
+          </p>
+        </div>
+        <a href="/blog" class="hidden md:inline-block bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+          Vedi Tutte
+        </a>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all border-l-4 border-purple-600 overflow-hidden">
+            {post.heroImage && (
+              <img 
+                src={urlFor(post.heroImage).width(600).height(300).url()} 
+                alt={post.heroImage.alt || post.title}
+                class="w-full h-48 object-cover"
+              />
+            )}
+            <div class="p-6">
+              <time class="text-sm text-purple-600 font-semibold mb-3 block">
+                {new Date(post.pubDate).toLocaleDateString('it-IT', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              <h3 class="text-xl font-bold mb-3 text-gray-800 line-clamp-2">
+                {post.title}
+              </h3>
+              <p class="text-gray-600 mb-4 line-clamp-3">
+                {post.description}
+              </p>
+              <a 
+                href={`/blog/${post.slug}`} 
+                class="inline-block bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+              >
+                Leggi Articolo
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      
+      <div class="text-center mt-12 md:hidden">
+        <a href="/blog" class="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+          Vedi Tutte le News
+        </a>
       </div>
     </div>
   </section>
