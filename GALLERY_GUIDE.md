@@ -69,7 +69,7 @@ Gli stili della gallery si trovano in `src/styles/global.css` dalla linea 192
 ## 🔧 Struttura Tecnica
 
 ### Schema Sanity
-- File: `sanity-studio/schemaTypes/project.ts`
+- File: `sanity/schemas/project.ts`
 - Campo: `gallery` (array di immagini)
 - Supporta hotspot per ritaglio intelligente
 

@@ -22,7 +22,11 @@ const project = await client.fetch<Project | null>(`
     heroImage,
     body,
     embedCode,
-    gallery,
+    gallery[] {
+      asset,
+      alt,
+      caption
+    },
     "slug": slug.current
   }
 `, { slug });
@@ -133,7 +137,11 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
       </div>
     </div>
 
-    <script define:vars={{ gallery: project.gallery }}>
+    <script define:vars={{ 
+      gallery: project.gallery,
+      projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+      dataset: import.meta.env.PUBLIC_SANITY_DATASET
+    }}>
       // Gallery Lightbox Script
       let currentIndex = 0;
       const lightbox = document.getElementById('lightbox');
@@ -156,14 +164,13 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
       
       function updateLightbox() {
         const image = gallery[currentIndex];
-        const imageUrl = `https://cdn.sanity.io/images/${import.meta.env.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env.PUBLIC_SANITY_DATASET}/${image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png').replace('-webp', '.webp')}`;
         
         // Costruisci URL Sanity corretto
         const ref = image.asset._ref;
         const dimensions = ref.split('-')[2];
         const format = ref.split('-')[3];
         const id = ref.replace('image-', '').replace(`-${dimensions}-${format}`, '');
-        const sanityUrl = `https://cdn.sanity.io/images/${import.meta.env.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env.PUBLIC_SANITY_DATASET}/${id}-${dimensions}.${format}?w=1920&q=85`;
+        const sanityUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}?w=1920&q=85`;
         
         lightboxImg.src = sanityUrl;
         lightboxImg.alt = image.alt || `Immagine ${currentIndex + 1}`;

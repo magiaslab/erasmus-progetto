@@ -81,6 +81,37 @@ export default defineType({
       description: 'Incolla qui il codice embed HTML/iframe da Canva o altri servizi. Esempio: <iframe src="..." ...></iframe>',
       rows: 5,
     }),
+    defineField({
+      name: 'gallery',
+      title: 'Gallery fotografica',
+      type: 'array',
+      description: 'Aggiungi immagini per creare una gallery fotografica del progetto',
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Testo alternativo',
+              description: 'Descrizione dell\'immagine per accessibilità',
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Didascalia',
+              description: 'Didascalia opzionale per l\'immagine',
+            },
+          ],
+        },
+      ],
+      options: {
+        layout: 'grid',
+      },
+    }),
   ],
   preview: {
     select: {
