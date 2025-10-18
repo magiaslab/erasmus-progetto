@@ -138,9 +138,7 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
     </div>
 
     <script define:vars={{ 
-      gallery: project.gallery,
-      projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-      dataset: import.meta.env.PUBLIC_SANITY_DATASET
+      gallery: project.gallery
     }}>
       // Gallery Lightbox Script
       let currentIndex = 0;
@@ -150,14 +148,20 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
       const lightboxCounter = document.getElementById('lightbox-counter');
       const galleryItems = document.querySelectorAll('.gallery-item');
       
+      // Valori hardcoded di Sanity (match con astro.config.mjs)
+      const projectId = 'fot89z96';
+      const dataset = 'production';
+      
       function openLightbox(index) {
         currentIndex = index;
         updateLightbox();
         lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
         document.body.style.overflow = 'hidden';
       }
       
       function closeLightbox() {
+        lightbox.classList.remove('flex');
         lightbox.classList.add('hidden');
         document.body.style.overflow = '';
       }
