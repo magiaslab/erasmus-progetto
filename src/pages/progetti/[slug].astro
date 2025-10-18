@@ -23,7 +23,10 @@ const project = await client.fetch<Project | null>(`
     body,
     embedCode,
     gallery[] {
-      asset,
+      asset {
+        _ref,
+        _type
+      },
       alt,
       caption
     },
