@@ -22,6 +22,7 @@ const project = await client.fetch<Project | null>(`
     heroImage,
     body,
     embedCode,
+    gallery,
     "slug": slug.current
   }
 `, { slug });
@@ -80,6 +81,151 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
       </div>
     </div>
   </section>
+
+  <!-- Gallery Section -->
+  {project.gallery && project.gallery.length > 0 && (
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center">Gallery del Progetto</h2>
+          
+          <!-- Grid Gallery -->
+          <div class="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {project.gallery.map((image: any, index: number) => (
+              <div class="gallery-item relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
+                   data-index={index}>
+                <img 
+                  src={urlFor(image).width(400).height(300).fit('crop').url()} 
+                  alt={image.alt || `Immagine ${index + 1}`}
+                  class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  loading="lazy"
+                />
+                {image.caption && (
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p class="text-white text-sm">{image.caption}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox fixed inset-0 z-50 bg-black/95 items-center justify-center hidden">
+      <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl font-light hover:text-gray-300 transition-colors z-10">
+        &times;
+      </button>
+      
+      <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 bg-black/50 rounded-full w-14 h-14 flex items-center justify-center">
+        ‹
+      </button>
+      
+      <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 bg-black/50 rounded-full w-14 h-14 flex items-center justify-center">
+        ›
+      </button>
+
+      <div class="lightbox-content max-w-7xl max-h-[90vh] w-full px-4">
+        <img id="lightbox-img" src="" alt="" class="w-full h-full object-contain max-h-[80vh]" />
+        <div id="lightbox-caption" class="text-white text-center mt-4 text-lg"></div>
+        <div id="lightbox-counter" class="text-white text-center mt-2 text-sm opacity-75"></div>
+      </div>
+    </div>
+
+    <script define:vars={{ gallery: project.gallery }}>
+      // Gallery Lightbox Script
+      let currentIndex = 0;
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxCounter = document.getElementById('lightbox-counter');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      
+      function openLightbox(index) {
+        currentIndex = index;
+        updateLightbox();
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeLightbox() {
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      
+      function updateLightbox() {
+        const image = gallery[currentIndex];
+        const imageUrl = `https://cdn.sanity.io/images/${import.meta.env.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env.PUBLIC_SANITY_DATASET}/${image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png').replace('-webp', '.webp')}`;
+        
+        // Costruisci URL Sanity corretto
+        const ref = image.asset._ref;
+        const dimensions = ref.split('-')[2];
+        const format = ref.split('-')[3];
+        const id = ref.replace('image-', '').replace(`-${dimensions}-${format}`, '');
+        const sanityUrl = `https://cdn.sanity.io/images/${import.meta.env.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env.PUBLIC_SANITY_DATASET}/${id}-${dimensions}.${format}?w=1920&q=85`;
+        
+        lightboxImg.src = sanityUrl;
+        lightboxImg.alt = image.alt || `Immagine ${currentIndex + 1}`;
+        lightboxCaption.textContent = image.caption || '';
+        lightboxCounter.textContent = `${currentIndex + 1} / ${gallery.length}`;
+      }
+      
+      function nextImage() {
+        currentIndex = (currentIndex + 1) % gallery.length;
+        updateLightbox();
+      }
+      
+      function prevImage() {
+        currentIndex = (currentIndex - 1 + gallery.length) % gallery.length;
+        updateLightbox();
+      }
+      
+      // Event listeners
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => openLightbox(index));
+      });
+      
+      document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+      document.getElementById('lightbox-next')?.addEventListener('click', nextImage);
+      document.getElementById('lightbox-prev')?.addEventListener('click', prevImage);
+      
+      // Click fuori dall'immagine per chiudere
+      lightbox?.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('hidden')) {
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowRight') nextImage();
+          if (e.key === 'ArrowLeft') prevImage();
+        }
+      });
+
+      // Touch support per mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      lightbox?.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      
+      lightbox?.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+      
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) nextImage();
+        if (touchEndX > touchStartX + 50) prevImage();
+      }
+    </script>
+  )}
+</section>
 
   <!-- CTA Section -->
   <section class="py-16 bg-gray-50">

@@ -9,6 +9,10 @@ export interface SanityImage {
   alt?: string;
 }
 
+export interface GalleryImage extends SanityImage {
+  caption?: string;
+}
+
 export interface PortableTextBlock {
   _type: 'block';
   children: Array<{
@@ -41,6 +45,7 @@ export interface Project {
   heroImage?: SanityImage;
   body?: PortableTextBlock[];
   embedCode?: string;
+  gallery?: GalleryImage[];
 }
 
 export interface Page {
