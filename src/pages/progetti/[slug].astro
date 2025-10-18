@@ -87,7 +87,7 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
   </section>
 
   <!-- Gallery Section -->
-  {project.gallery && project.gallery.length > 0 && (
+  {project.gallery && project.gallery.length > 0 ? (
     <section class="py-16 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
@@ -231,8 +231,7 @@ const contentHtml = project.body ? await portableTextToHtml(project.body) : '';
         if (touchEndX > touchStartX + 50) prevImage();
       }
     </script>
-  )}
-</section>
+  ) : null}
 
   <!-- CTA Section -->
   <section class="py-16 bg-gray-50">
